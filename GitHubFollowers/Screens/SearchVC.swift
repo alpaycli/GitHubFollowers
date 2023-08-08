@@ -20,6 +20,7 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
         configureImage()
         configureTextField()
         configureOnTapAction()
@@ -29,7 +30,7 @@ class SearchVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        navigationController?.isNavigationBarHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     @objc func pushFollowersListVC() {
@@ -44,11 +45,6 @@ class SearchVC: UIViewController {
         followersVC.title = textFieldView.text
         
         navigationController?.pushViewController(followersVC, animated: true)
-    }
-    
-    private func dismissKeyboardWithTap() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap)
     }
     
     private func configureImage() {
@@ -91,6 +87,11 @@ class SearchVC: UIViewController {
             callToActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             callToActionButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    private func dismissKeyboardWithTap() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
     }
 
 }
