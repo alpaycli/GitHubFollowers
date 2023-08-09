@@ -23,7 +23,7 @@ class FollowerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setTitle(follower: Follower) {
+    func set(follower: Follower) {
         titleLabel.text = follower.login
     }
     
@@ -33,16 +33,18 @@ class FollowerCell: UICollectionViewCell {
         
         let padding: CGFloat = 8
         
+        translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            imageView.heightAnchor.constraint(equalTo: contentView.widthAnchor),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 12),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            imageView.heightAnchor.constraint(equalToConstant: 8)
+            titleLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 }
