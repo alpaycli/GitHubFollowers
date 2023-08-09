@@ -36,40 +36,24 @@ class FollowersListVC: UIViewController {
         let baseUrl = "https://api.github.com/users/"
         let manager = NetworkManager()
         
-        
         let endpoint = baseUrl + "\(username!)/" + "followers"
         let url = URLRequest(url: URL(string: endpoint)!)
         
         print(url)
         
-        manager.fetch([Follower].self, url: url) { result in
+        manager.fetch([Follower].self, url: url) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let followers):
-                self.followers = followers
-                self.updateData()
+                self?.followers = followers
+                self?.updateData()
             }
         }
     }
     
-    private func createThreeColumnFlowLayout() -> UICollectionViewFlowLayout {
-        let width = view.bounds.width
-        let padding: CGFloat = 12
-        let minItemSpacing: CGFloat = 10
-        let availableScreenWidth = width - (padding * 2) - (minItemSpacing * 2)
-        
-        let availableItemWidth = availableScreenWidth / 3
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: availableItemWidth, height: availableItemWidth + 40)
-        
-        return flowLayout
-    }
-    
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createThreeColumnFlowLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
         view.addSubview(collectionView)
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseId)
     }
