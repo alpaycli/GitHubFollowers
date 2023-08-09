@@ -10,6 +10,9 @@ import UIKit
 class GFAvatarImageView: UIImageView {
     
     let placeholderImage = UIImage(named: "avatar-placeholder")!
+    
+    // MARK: Bad coding approach, will handle this
+    let cache = FollowersFetcher.shared.cache
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,6 +28,37 @@ class GFAvatarImageView: UIImageView {
         clipsToBounds = true
         image = placeholderImage
         translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func downloadImage(urlString: String) {
+        
+        let cacheKey = NSString(string: urlString)
+        
+        if let image = cache.object(forKey: cacheKey) {
+            self.image = image
+            return
+        }
+        
+        guard let url = URL(string: urlString) else { return }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            guard error == nil else { return }
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else { return }
+            guard let data = data else { return }
+            
+            guard let image = UIImage(data: data) else { return }
+            
+            self.cache.setObject(image, forKey: cacheKey)
+            
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }
+        
+        task.resume()
+        
     }
     
 }
