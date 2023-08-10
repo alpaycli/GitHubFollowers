@@ -44,16 +44,23 @@ class FollowersListVC: UIViewController {
         
         showLoadingView()
         manager.fetch([Follower].self, url: url) { [weak self] result in
-            self?.hideLoadingView()
+            guard let self = self else { return }
+            self.hideLoadingView()
             
             switch result {
             case .failure:
-                self?.presentGFAlert(title: "Something went wrong", message: "No account found related to that username, try again later", buttonTitle: "Ok")
+                self.presentGFAlert(title: "Something went wrong", message: "No account found related to that username, try again later", buttonTitle: "Ok")
             case .success(let followers):
-                if followers.count < 100 { self?.hasMoreFollowers = false }
+                if followers.count < 100 { self.hasMoreFollowers = false }
+                self.followers.append(contentsOf: followers)
                 
-                self?.followers.append(contentsOf: followers)
-                self?.updateData()
+                if followers.isEmpty {
+                    let message = "This user hasn not got any followers 😢. You can give him a follow 😸."
+                    DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
+                    return
+                }
+                
+                self.updateData()
             }
         }
     }
