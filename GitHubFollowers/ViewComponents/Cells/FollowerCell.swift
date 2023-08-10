@@ -16,7 +16,7 @@ class FollowerCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
+        configureImageAndTitle()
     }
     
     required init?(coder: NSCoder) {
@@ -29,8 +29,7 @@ class FollowerCell: UICollectionViewCell {
     }
     
     
-    
-    private func configure() {
+    private func configureImageAndTitle() {
         addSubview(imageView)
         addSubview(titleLabel)
         
