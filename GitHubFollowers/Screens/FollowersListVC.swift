@@ -14,6 +14,8 @@ class FollowersListVC: UIViewController {
     }
 
     var followers: [Follower] = []
+    var filteredFollowers: [Follower] = []
+    
     var username: String!
     var page = 1
     var hasMoreFollowers = true
@@ -25,6 +27,7 @@ class FollowersListVC: UIViewController {
         super.viewDidLoad()
         setupViewController()
         configureCollectionView()
+        configureSearchBar()
         fetchFollowers(username: username, page: page)
         configureDataSource()
     }
@@ -35,15 +38,8 @@ class FollowersListVC: UIViewController {
     }
     
     private func fetchFollowers(username: String, page: Int) {
-        let baseUrl = "https://api.github.com/users/"
-        let manager = NetworkManager()
-        
-        
-        let endpoint = baseUrl + "\(username)/" + "followers?per_page=100&page=\(page)"
-        let url = URLRequest(url: URL(string: endpoint)!)
-        
         showLoadingView()
-        manager.fetch([Follower].self, url: url) { [weak self] result in
+        FollowersFetcher.shared.getFollowers(for: username, page: page) { [weak self] result in
             guard let self = self else { return }
             self.hideLoadingView()
             
@@ -60,9 +56,17 @@ class FollowersListVC: UIViewController {
                     return
                 }
                 
-                self.updateData()
+                self.updateData(self.followers)
             }
         }
+    }
+    
+    private func configureSearchBar() {
+        let searchBar = UISearchController()
+        searchBar.searchResultsUpdater = self
+        searchBar.searchBar.placeholder = "Search for a username"
+        navigationItem.searchController = searchBar
+        
     }
     
     private func configureCollectionView() {
@@ -72,7 +76,7 @@ class FollowersListVC: UIViewController {
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseId)
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.reuseId, for: indexPath) as! FollowerCell
             cell.set(follower: follower)
@@ -80,10 +84,10 @@ class FollowersListVC: UIViewController {
         })
     }
     
-    func updateData() {
+    private func updateData(_ data: [Follower]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(followers)
+        snapshot.appendItems(data)
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
@@ -97,6 +101,7 @@ class FollowersListVC: UIViewController {
     
 }
 
+// MARK: Scroll View Pagination
 extension FollowersListVC: UICollectionViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
@@ -110,4 +115,16 @@ extension FollowersListVC: UICollectionViewDelegate {
             fetchFollowers(username: username, page: page)
         }
     }
+}
+
+// MARK: Searchable
+extension FollowersListVC: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else { return }
+        filteredFollowers = followers.filter { $0.login.lowercased().contains(searchText.lowercased()) }
+        
+        updateData(filteredFollowers)
+    }
+    
+    
 }

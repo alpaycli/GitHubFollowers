@@ -12,11 +12,13 @@ fileprivate var containerView: UIView!
 extension UIViewController {
     
     func presentGFAlert(title: String, message: String, buttonTitle: String) {
-        let alert = CustomAlertVC(alertTitle: title, message: message, buttonTitle: buttonTitle)
-        alert.modalPresentationStyle = .overFullScreen
-        alert.modalTransitionStyle = .crossDissolve
-        
-        self.present(alert, animated: true)
+        DispatchQueue.main.async {
+            let alert = CustomAlertVC(alertTitle: title, message: message, buttonTitle: buttonTitle)
+            alert.modalPresentationStyle = .overFullScreen
+            alert.modalTransitionStyle = .crossDissolve
+            
+            self.present(alert, animated: true)
+        }
     }
     
     func showLoadingView() {
@@ -38,6 +40,8 @@ extension UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         activityIndicator.startAnimating()
+        
+        print("Loading...")
     }
     
     func hideLoadingView() {
@@ -45,6 +49,7 @@ extension UIViewController {
             containerView.removeFromSuperview()
             containerView = nil
         }
+        print("Hiding...")
     }
     
     func showEmptyStateView(with message: String, in view: UIView) {

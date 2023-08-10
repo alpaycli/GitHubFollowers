@@ -10,6 +10,7 @@ import UIKit
 class CustomAlertVC: UIViewController {
 
     var containerView = UIView()
+    
     var titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
     var messageLabel = GFBodyLabel(textAlignment: .center)
     var callToActionButton = GFButton(backgroundColor: .systemPink, title: "Ok")
