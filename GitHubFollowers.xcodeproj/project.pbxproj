@@ -29,6 +29,7 @@
 		C9C3F2022A82C1A500241F16 /* GFAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F2012A82C1A500241F16 /* GFAvatarImageView.swift */; };
 		C9C3F2052A83EA5D00241F16 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F2042A83EA5D00241F16 /* UIHelper.swift */; };
 		C9C3F20C2A8519CF00241F16 /* GFEmtpyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F20B2A8519CF00241F16 /* GFEmtpyStateView.swift */; };
+		C9C3F20E2A85750200241F16 /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F20D2A85750200241F16 /* UserInfoVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		C9C3F2012A82C1A500241F16 /* GFAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAvatarImageView.swift; sourceTree = "<group>"; };
 		C9C3F2042A83EA5D00241F16 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		C9C3F20B2A8519CF00241F16 /* GFEmtpyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFEmtpyStateView.swift; sourceTree = "<group>"; };
+		C9C3F20D2A85750200241F16 /* UserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			children = (
 				C96714E02A7E6CA50047A526 /* SearchVC.swift */,
 				C96714EC2A7EE2FC0047A526 /* FollowersListVC.swift */,
+				C9C3F20D2A85750200241F16 /* UserInfoVC.swift */,
 				C96714E22A7E6CB70047A526 /* FavoritesVC.swift */,
 			);
 			path = Screens;
@@ -292,6 +295,7 @@
 				C9C3F2022A82C1A500241F16 /* GFAvatarImageView.swift in Sources */,
 				C96714DE2A7D39F40047A526 /* String+Ext.swift in Sources */,
 				C9C3F1F62A81372100241F16 /* Follower.swift in Sources */,
+				C9C3F20E2A85750200241F16 /* UserInfoVC.swift in Sources */,
 				C96714EF2A7FEF760047A526 /* GFTitleLabel.swift in Sources */,
 				C96714CA2A7D329A0047A526 /* AppDelegate.swift in Sources */,
 				C96714F32A7FF1720047A526 /* CustomAlertVC.swift in Sources */,
