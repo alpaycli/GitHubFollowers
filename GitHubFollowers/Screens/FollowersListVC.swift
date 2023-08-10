@@ -38,14 +38,14 @@ class FollowersListVC: UIViewController {
         let baseUrl = "https://api.github.com/users/"
         let manager = NetworkManager()
         
-        // followers?per_page=100&page=1
         
         let endpoint = baseUrl + "\(username)/" + "followers?per_page=100&page=\(page)"
         let url = URLRequest(url: URL(string: endpoint)!)
         
-        print(url)
-        
+        showLoadingView()
         manager.fetch([Follower].self, url: url) { [weak self] result in
+            self?.hideLoadingView()
+            
             switch result {
             case .failure:
                 self?.presentGFAlert(title: "Something went wrong", message: "No account found related to that username, try again later", buttonTitle: "Ok")
