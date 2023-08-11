@@ -9,9 +9,9 @@
 import UIKit
 
 class FollowersFetcher {
-    static let shared   = FollowersFetcher()
+    static let shared = FollowersFetcher()
     private let baseURL = "https://api.github.com/users/"
-    let cache           = NSCache<NSString, UIImage>()
+    let cache = NSCache<NSString, UIImage>()
     
     private init() {}
     
@@ -20,7 +20,7 @@ class FollowersFetcher {
         let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
         
         guard let url = URL(string: endpoint) else {
-            
+            completed(.failure(APIError.badURL))
             return
         }
         

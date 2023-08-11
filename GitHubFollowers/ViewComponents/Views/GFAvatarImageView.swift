@@ -12,7 +12,7 @@ class GFAvatarImageView: UIImageView {
     let placeholderImage = UIImage(named: "avatar-placeholder")!
     
     // MARK: Bad coding approach, will handle this
-    let cache = FollowersFetcher.shared.cache
+    private let cache = FollowersFetcher.shared.cache
 
     override init(frame: CGRect) {
         super.init(frame: frame)
