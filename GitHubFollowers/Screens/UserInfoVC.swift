@@ -10,17 +10,21 @@ import UIKit
 class UserInfoVC: UIViewController {
     
     var headerView = UIView()
+    var infoViewOne = UIView()
+    var infoViewTwo = UIView()
+    
+    var itemViews: [UIView] = []
 
     var username: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
-        navigationItem.rightBarButtonItem = doneButton
-        
+        setupViewController()
         layoutUI()
-        
+        fetchUser()
+    }
+    
+    private func fetchUser() {
         UserFetcher.shared.getUser(for: username) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -41,16 +45,39 @@ class UserInfoVC: UIViewController {
     }
     
     private func layoutUI() {
-        view.addSubview(headerView)
+        let padding: CGFloat = 20
+        itemViews = [headerView, infoViewOne, infoViewTwo]
         
-        headerView.translatesAutoresizingMaskIntoConstraints = false
+        itemViews.forEach { item in
+            view.addSubview(item)
+            
+            item.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                item.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+                item.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            ])
+        }
         
+        infoViewOne.backgroundColor = .systemRed
+        infoViewTwo.backgroundColor = .systemBlue
+                
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 180)
+            headerView.heightAnchor.constraint(equalToConstant: 180),
+            
+            infoViewOne.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
+            infoViewOne.heightAnchor.constraint(equalToConstant: 140),
+            
+            infoViewTwo.topAnchor.constraint(equalTo: infoViewOne.bottomAnchor, constant: padding),
+            infoViewTwo.heightAnchor.constraint(equalToConstant: 140)
         ])
+    }
+    
+    private func setupViewController() {
+        view.backgroundColor = .systemBackground
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
+        navigationItem.rightBarButtonItem = doneButton
     }
     
     @objc func dismissVC() {
