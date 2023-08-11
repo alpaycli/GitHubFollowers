@@ -13,7 +13,7 @@ enum ItemInfoType {
 
 class GFItemInfoView: UIView {
         
-    var symbolImageView: UIImageView!
+    var symbolImageView = UIImageView()
     var titleLabel = GFTitleLabel(textAlignment: .left, fontSize: 14)
     var amountLabel = GFTitleLabel(textAlignment: .center, fontSize: 14)
     
@@ -57,10 +57,10 @@ class GFItemInfoView: UIView {
         switch itemType {
         case .repos:
             symbolImageView.image = UIImage(systemName: SFSymbols.repos)
-            titleLabel.text = "Repos"
+            titleLabel.text = "Public Repos"
         case .gists:
             symbolImageView.image = UIImage(systemName: SFSymbols.gists)
-            titleLabel.text = "Gists"
+            titleLabel.text = "Public Gists"
         case .followers:
             symbolImageView.image = UIImage(systemName: SFSymbols.followers)
             titleLabel.text = "Followers"

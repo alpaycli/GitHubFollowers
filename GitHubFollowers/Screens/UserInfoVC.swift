@@ -30,6 +30,9 @@ class UserInfoVC: UIViewController {
                 switch result {
                 case .success(let user):
                     self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
+                    self.add(childVC: GFRepoItemVC(user: user), to: self.infoViewOne)
+                    self.add(childVC: GFFollowerItemVC(user: user), to: self.infoViewTwo)
+                    
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -58,9 +61,6 @@ class UserInfoVC: UIViewController {
                 item.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             ])
         }
-        
-        infoViewOne.backgroundColor = .systemRed
-        infoViewTwo.backgroundColor = .systemBlue
                 
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
