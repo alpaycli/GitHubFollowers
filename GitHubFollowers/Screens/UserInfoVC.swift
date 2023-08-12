@@ -12,6 +12,7 @@ class UserInfoVC: UIViewController {
     var headerView = UIView()
     var infoViewOne = UIView()
     var infoViewTwo = UIView()
+    var dateLabel = GFBodyLabel(textAlignment: .center)
     
     var itemViews: [UIView] = []
 
@@ -32,6 +33,7 @@ class UserInfoVC: UIViewController {
                     self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
                     self.add(childVC: GFRepoItemVC(user: user), to: self.infoViewOne)
                     self.add(childVC: GFFollowerItemVC(user: user), to: self.infoViewTwo)
+                    self.dateLabel.text = "GitHub since \(user.createdAt.convertDateToDisplayFormat())"
                     
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -49,7 +51,7 @@ class UserInfoVC: UIViewController {
     
     private func layoutUI() {
         let padding: CGFloat = 20
-        itemViews = [headerView, infoViewOne, infoViewTwo]
+        itemViews = [headerView, infoViewOne, infoViewTwo, dateLabel]
         
         itemViews.forEach { item in
             view.addSubview(item)
@@ -70,7 +72,10 @@ class UserInfoVC: UIViewController {
             infoViewOne.heightAnchor.constraint(equalToConstant: 140),
             
             infoViewTwo.topAnchor.constraint(equalTo: infoViewOne.bottomAnchor, constant: padding),
-            infoViewTwo.heightAnchor.constraint(equalToConstant: 140)
+            infoViewTwo.heightAnchor.constraint(equalToConstant: 140),
+            
+            dateLabel.topAnchor.constraint(equalTo: infoViewTwo.bottomAnchor, constant: padding)
+            
         ])
     }
     

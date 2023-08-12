@@ -38,6 +38,7 @@
 		C9C3F21A2A86CD8900241F16 /* GFItemInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F2192A86CD8900241F16 /* GFItemInfoVC.swift */; };
 		C9C3F21D2A86D04300241F16 /* GFRepoItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F21C2A86D04300241F16 /* GFRepoItemVC.swift */; };
 		C9C3F21F2A86D04E00241F16 /* GFFollowerItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F21E2A86D04E00241F16 /* GFFollowerItemVC.swift */; };
+		C9C3F2222A878F1800241F16 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F2212A878F1800241F16 /* Date+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		C9C3F2192A86CD8900241F16 /* GFItemInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFItemInfoVC.swift; sourceTree = "<group>"; };
 		C9C3F21C2A86D04300241F16 /* GFRepoItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFRepoItemVC.swift; sourceTree = "<group>"; };
 		C9C3F21E2A86D04E00241F16 /* GFFollowerItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFFollowerItemVC.swift; sourceTree = "<group>"; };
+		C9C3F2212A878F1800241F16 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				C96714DD2A7D39F40047A526 /* String+Ext.swift */,
+				C9C3F2212A878F1800241F16 /* Date+Ext.swift */,
 				C96714F42A7FFAD30047A526 /* UIViewController+Ext.swift */,
 			);
 			path = Extensions;
@@ -333,6 +336,7 @@
 				C9C3F1F82A8138C400241F16 /* User.swift in Sources */,
 				C9C3F2182A869BAD00241F16 /* Constants.swift in Sources */,
 				C9C3F2002A82C17D00241F16 /* FollowerCell.swift in Sources */,
+				C9C3F2222A878F1800241F16 /* Date+Ext.swift in Sources */,
 				C9C3F21A2A86CD8900241F16 /* GFItemInfoVC.swift in Sources */,
 				C9C3F2022A82C1A500241F16 /* GFAvatarImageView.swift in Sources */,
 				C96714DE2A7D39F40047A526 /* String+Ext.swift in Sources */,
