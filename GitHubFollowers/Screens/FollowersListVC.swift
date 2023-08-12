@@ -104,6 +104,13 @@ class FollowersListVC: UIViewController {
     private func setupViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction))
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc private func addButtonAction() {
+        print("tapped or added")
     }
     
 }
