@@ -5,6 +5,7 @@
 //  Created by Alpay Calalli on 06.08.23.
 //
 
+import SafariServices
 import UIKit
 
 fileprivate var containerView: UIView!
@@ -19,6 +20,12 @@ extension UIViewController {
             
             self.present(alert, animated: true)
         }
+    }
+    
+    func presentSafariVC(with url: URL) {
+        let safariView = SFSafariViewController(url: url)
+        safariView.preferredControlTintColor = .systemGreen
+        present(safariView, animated: true)
     }
     
     func showLoadingView() {
