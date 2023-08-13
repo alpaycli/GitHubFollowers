@@ -110,7 +110,29 @@ class FollowersListVC: UIViewController {
     }
     
     @objc private func addButtonAction() {
-        print("tapped or added")
+        showLoadingView()
+        UserFetcher.shared.getUser(for: username) { [weak self] result in
+            guard let self = self else { return }
+            self.hideLoadingView()
+            
+            switch result {
+            case .success(let user):
+                let follower = Follower(login: user.login, avatarUrl: user.avatarUrl)
+                
+                PersistenceManager.shared.updateWith(follower, actionType: .add) { error in
+                    guard let error = error else {
+                        self.presentGFAlert(title: "Succesfully favorited!🎉", message: "You have favorited \(user.login)!🥳", buttonTitle: "Cancel")
+                        return
+                    }
+                    
+                    self.presentGFAlert(title: "Ops..", message: error.description, buttonTitle: "Ok")
+                }
+                
+                
+            case .failure(let error):
+                self.presentGFAlert(title: "Something went wrong.", message: error.description, buttonTitle: "Ok")
+            }
+        }
     }
     
 }
@@ -160,6 +182,7 @@ extension FollowersListVC: UISearchResultsUpdating, UISearchBarDelegate {
     }
 }
 
+// MARK: For reloading, when another action called in other view.
 extension FollowersListVC: FollowersListVCDelegate {
     func didTapGetFollowers(for username: String) {
         self.username = username

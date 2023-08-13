@@ -12,9 +12,11 @@ enum ActionType {
     case remove
 }
 
-struct PersistenceManager {
-    static let defaults = UserDefaults.standard
+class PersistenceManager {
+    static let shared = PersistenceManager()
+    private init() { }
     
+    private let defaults = UserDefaults.standard
     private let favoritesKey = "favorites"
     
     func updateWith(_ favoriteItem: Follower, actionType: ActionType, completion: @escaping(APIError?) -> Void ) {
@@ -25,13 +27,17 @@ struct PersistenceManager {
                 
                 switch actionType {
                 case .add:
-                    if retrievedFavorites.contains(favoriteItem) { completion(.unknown) }
+                    if retrievedFavorites.contains(favoriteItem) {
+                        completion(.unknown)
+                        return
+                    }
                     
                     retrievedFavorites.append(favoriteItem)
-                    completion(saveFavorites(followers: retrievedFavorites))
                 case .remove:
                     retrievedFavorites.removeAll(where: { $0.login == favoriteItem.login } )
                 }
+                
+                completion(self.saveFavorites(followers: retrievedFavorites))
                 
             case .failure(let error):
                 completion(error)
@@ -40,8 +46,8 @@ struct PersistenceManager {
     }
 
     
-    private func loadFavorites(completion: @escaping(Result<[Follower], APIError>) -> Void) {
-        guard let data = PersistenceManager.defaults.object(forKey: favoritesKey) as? Data else {
+    func loadFavorites(completion: @escaping(Result<[Follower], APIError>) -> Void) {
+        guard let data = defaults.object(forKey: favoritesKey) as? Data else {
             completion(.success([]))
             return
         }
@@ -60,7 +66,7 @@ struct PersistenceManager {
         do {
             let encoder = JSONEncoder()
             let encodedItems = try encoder.encode(followers)
-            PersistenceManager.defaults.set(encodedItems, forKey: favoritesKey)
+            defaults.set(encodedItems, forKey: favoritesKey)
             return nil
         } catch {
             return APIError.unknown

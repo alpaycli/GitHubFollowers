@@ -12,6 +12,7 @@ class UserFetcher {
     private let baseURL = "https://api.github.com/users/"
     
     private init() { }
+
     
     func getUser(for username: String, completion: @escaping (Result<User, APIError>) -> Void) {
         let endpoint = baseURL + username
@@ -20,6 +21,8 @@ class UserFetcher {
             completion(.failure(APIError.badURL))
             return
         }
+        
+
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             

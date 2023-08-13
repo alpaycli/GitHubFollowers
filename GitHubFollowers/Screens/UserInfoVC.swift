@@ -14,12 +14,12 @@ protocol UserInfoVCDelegate: AnyObject {
 
 class UserInfoVC: UIViewController {
     
-    var headerView = UIView()
-    var infoViewOne = UIView()
-    var infoViewTwo = UIView()
-    var dateLabel = GFBodyLabel(textAlignment: .center)
+    private var headerView = UIView()
+    private var infoViewOne = UIView()
+    private var infoViewTwo = UIView()
+    private var dateLabel = GFBodyLabel(textAlignment: .center)
     
-    var itemViews: [UIView] = []
+    private var itemViews: [UIView] = []
 
     var username: String!
     weak var delegate: FollowersListVCDelegate!
@@ -32,7 +32,8 @@ class UserInfoVC: UIViewController {
     }
     
     private func fetchUser() {
-        UserFetcher.shared.getUser(for: username) { result in
+        UserFetcher.shared.getUser(for: username) { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
