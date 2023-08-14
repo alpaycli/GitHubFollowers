@@ -41,20 +41,22 @@ class SearchVC: UIViewController {
             return
         }
         
-        let followersVC = FollowersListVC()
-        followersVC.username = textFieldView.text
-        followersVC.title = textFieldView.text
+        textFieldView.resignFirstResponder()
+        
+        let followersVC = FollowersListVC(username: textFieldView.text!)
         
         navigationController?.pushViewController(followersVC, animated: true)
     }
     
     private func configureImage() {
         view.addSubview(logoImageView)
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.image = UIImage(named: "gh-logo")
+        logoImageView.image = Images.ghLogo
         
+        
+        
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 200),
             logoImageView.widthAnchor.constraint(equalToConstant: 200)
@@ -91,7 +93,7 @@ class SearchVC: UIViewController {
     }
     
     private func dismissKeyboardWithTap() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
 
