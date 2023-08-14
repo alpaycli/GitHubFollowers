@@ -1,4 +1,4 @@
-//
+ //
 //  GFUserInfoHeaderVC.swift
 //  GitHubFollowers
 //
@@ -44,13 +44,22 @@ class GFUserInfoHeaderVC: UIViewController {
     }
     
     private func configureUIElements() {
-        avatarImageView.downloadImage(urlString: user.avatarUrl)
+        downloadAvatarImage()
         usernameLabel.text = user.login
         nameLabel.text = user.name ?? ""
         locationImageView.image = UIImage(systemName: "mappin")
         locationLabel.text = user.location ?? "No Location"
         bioLabel.text = user.bio ?? "No Bio"
         bioLabel.numberOfLines = 3
+    }
+    
+    private func downloadAvatarImage() {
+        NetworkManager.shared.downloadImage(urlString: user.avatarUrl) { [weak self] image in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.avatarImageView.image = image
+            }
+        }
     }
 
     private func layoutUI() {

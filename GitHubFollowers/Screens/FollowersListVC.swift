@@ -11,7 +11,7 @@ protocol FollowersListVCDelegate: AnyObject {
     func didTapGetFollowers(for username: String)
 }
 
-class FollowersListVC: UIViewController {
+class FollowersListVC: GFDataLoadingVC {
     
     enum Section {
         case main
@@ -55,7 +55,7 @@ class FollowersListVC: UIViewController {
     
     private func fetchFollowers(username: String, page: Int) {
         showLoadingView()
-        FollowersFetcher.shared.getFollowers(for: username, page: page) { [weak self] result in
+        NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
             guard let self = self else { return }
             self.hideLoadingView()
             
@@ -121,7 +121,7 @@ class FollowersListVC: UIViewController {
     
     @objc private func addButtonAction() {
         showLoadingView()
-        UserFetcher.shared.getUser(for: username) { [weak self] result in
+        NetworkManager.shared.getUser(for: username) { [weak self] result in
             guard let self = self else { return }
             self.hideLoadingView()
             

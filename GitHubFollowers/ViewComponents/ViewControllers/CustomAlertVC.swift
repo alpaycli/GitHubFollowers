@@ -9,7 +9,7 @@ import UIKit
 
 class CustomAlertVC: UIViewController {
 
-    var containerView = UIView()
+    var containerView = GFAlertContainerView()
     
     var titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
     var messageLabel = GFBodyLabel(textAlignment: .center)
@@ -43,12 +43,6 @@ class CustomAlertVC: UIViewController {
     
     private func configureContainerView() {
         view.addSubview(containerView)
-        containerView.layer.cornerRadius = 16
-        containerView.layer.borderColor = UIColor.white.cgColor
-        containerView.backgroundColor = .systemBackground
-        containerView.layer.borderWidth = 2
-        
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

@@ -12,7 +12,7 @@ protocol UserInfoVCDelegate: AnyObject {
     func didTapGetFollowers(for user: User)
 }
 
-class UserInfoVC: UIViewController {
+class UserInfoVC: GFDataLoadingVC {
     
     private var headerView = UIView()
     private var infoViewOne = UIView()
@@ -32,8 +32,11 @@ class UserInfoVC: UIViewController {
     }
     
     private func fetchUser() {
-        UserFetcher.shared.getUser(for: username) { [weak self] result in
+        showLoadingView()
+        NetworkManager.shared.getUser(for: username) { [weak self] result in
             guard let self = self else { return }
+            
+            self.hideLoadingView()
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
@@ -62,7 +65,7 @@ class UserInfoVC: UIViewController {
         self.add(childVC: repoItemVC, to: self.infoViewOne)
         self.add(childVC: followerItemVC, to: self.infoViewTwo)
         self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
-        self.dateLabel.text = "GitHub since \(user.createdAt.convertDateToDisplayFormat())"
+        self.dateLabel.text = "GitHub since \(user.createdAt.convertDateToString())"
     }
     
     private func layoutUI() {
