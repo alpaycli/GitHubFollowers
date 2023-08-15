@@ -41,6 +41,7 @@
 		C9C3F2492A8A339D00241F16 /* GFTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F2482A8A339D00241F16 /* GFTabBarController.swift */; };
 		C9C3F24B2A8A3D4300241F16 /* GFAlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F24A2A8A3D4200241F16 /* GFAlertContainerView.swift */; };
 		C9C3F24D2A8A495500241F16 /* GFDataLoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F24C2A8A495500241F16 /* GFDataLoadingVC.swift */; };
+		C9C3F25B2A8A810200241F16 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C3F25A2A8A810200241F16 /* Array+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		C9C3F2482A8A339D00241F16 /* GFTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTabBarController.swift; sourceTree = "<group>"; };
 		C9C3F24A2A8A3D4200241F16 /* GFAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAlertContainerView.swift; sourceTree = "<group>"; };
 		C9C3F24C2A8A495500241F16 /* GFDataLoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFDataLoadingVC.swift; sourceTree = "<group>"; };
+		C9C3F25A2A8A810200241F16 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				C9C3F2212A878F1800241F16 /* Date+Ext.swift */,
+				C9C3F25A2A8A810200241F16 /* Array+Ext.swift */,
 				C96714F42A7FFAD30047A526 /* UIViewController+Ext.swift */,
 				C9C3F24C2A8A495500241F16 /* GFDataLoadingVC.swift */,
 			);
@@ -347,6 +350,7 @@
 				C96714ED2A7EE2FC0047A526 /* FollowersListVC.swift in Sources */,
 				C96714E12A7E6CA50047A526 /* SearchVC.swift in Sources */,
 				C96714E82A7E77DC0047A526 /* GFButton.swift in Sources */,
+				C9C3F25B2A8A810200241F16 /* Array+Ext.swift in Sources */,
 				C9C3F1F82A8138C400241F16 /* User.swift in Sources */,
 				C9C3F2242A87C2D900241F16 /* PersistenceManager.swift in Sources */,
 				C9C3F2182A869BAD00241F16 /* Constants.swift in Sources */,

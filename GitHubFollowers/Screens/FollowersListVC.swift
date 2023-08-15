@@ -25,6 +25,7 @@ class FollowersListVC: GFDataLoadingVC {
     var hasMoreFollowers = true
     
     var isSearching = false
+    var isLoadingFollowers = false
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
@@ -43,8 +44,8 @@ class FollowersListVC: GFDataLoadingVC {
         super.viewDidLoad()
         setupViewController()
         configureCollectionView()
-        configureSearchBar()
         fetchFollowers(username: username, page: page)
+        configureSearchBar()
         configureDataSource()
     }
     
@@ -80,7 +81,6 @@ class FollowersListVC: GFDataLoadingVC {
     private func configureSearchBar() {
         let searchController = UISearchController()
         searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search for a username"
         navigationItem.searchController = searchController
         
@@ -121,6 +121,7 @@ class FollowersListVC: GFDataLoadingVC {
     
     @objc private func addButtonAction() {
         showLoadingView()
+        isLoadingFollowers = true
         NetworkManager.shared.getUser(for: username) { [weak self] result in
             guard let self = self else { return }
             self.hideLoadingView()
@@ -142,6 +143,8 @@ class FollowersListVC: GFDataLoadingVC {
             case .failure(let error):
                 self.presentGFAlert(title: "Something went wrong.", message: error.description, buttonTitle: "Ok")
             }
+            
+            self.isLoadingFollowers = false
         }
     }
     
@@ -156,7 +159,7 @@ extension FollowersListVC: UICollectionViewDelegate {
         let screenHeight = scrollView.frame.size.height
         
         if scrollY > contentHeight - screenHeight {
-            guard hasMoreFollowers else { return }
+            guard hasMoreFollowers, !isLoadingFollowers else { return }
             page += 1
             fetchFollowers(username: username, page: page)
         }
@@ -176,19 +179,19 @@ extension FollowersListVC: UICollectionViewDelegate {
 }
 
 // MARK: Searchable
-extension FollowersListVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension FollowersListVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else { return }
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
+            isSearching = false
+            updateData(followers)
+            filteredFollowers.removeAll()
+            return
+        }
         isSearching = true
         
         filteredFollowers = followers.filter { $0.login.lowercased().contains(searchText.lowercased()) }
         
         updateData(filteredFollowers)
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearching = false
-        updateData(followers)
     }
 }
 
@@ -202,8 +205,7 @@ extension FollowersListVC: FollowersListVCDelegate {
         
         followers.removeAll()
         filteredFollowers.removeAll()
-        
-        collectionView.setContentOffset(.zero, animated: true)
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         fetchFollowers(username: username, page: page)
     }
 }

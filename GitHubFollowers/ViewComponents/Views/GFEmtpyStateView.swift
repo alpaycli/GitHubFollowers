@@ -34,7 +34,7 @@ class GFEmtpyStateView: UIView {
         messageLabel.numberOfLines = 3
         messageLabel.textColor = .secondaryLabel
         
-        imageView.image = UIImage(named: "empty-state-logo")!
+        imageView.image = Images.emptyStateLogo
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
