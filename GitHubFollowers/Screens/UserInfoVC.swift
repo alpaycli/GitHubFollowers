@@ -8,8 +8,7 @@
 import UIKit
 
 protocol UserInfoVCDelegate: AnyObject {
-    func didTapGitHubProfile(for user: User)
-    func didTapGetFollowers(for user: User)
+    func didTapGetFollowers(for username: String)
 }
 
 class UserInfoVC: GFDataLoadingVC {
@@ -22,7 +21,7 @@ class UserInfoVC: GFDataLoadingVC {
     private var itemViews: [UIView] = []
 
     var username: String!
-    weak var delegate: FollowersListVCDelegate!
+    weak var delegate: UserInfoVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,10 +56,8 @@ class UserInfoVC: GFDataLoadingVC {
     }
     
     private func configureUIElements(for user: User) {
-        let repoItemVC = GFRepoItemVC(user: user)
-        repoItemVC.delegate = self
-        let followerItemVC = GFFollowerItemVC(user: user)
-        followerItemVC.delegate = self
+        let repoItemVC = GFRepoItemVC(user: user, delegate: self)
+        let followerItemVC = GFFollowerItemVC(user: user, delegate: self)
         
         self.add(childVC: repoItemVC, to: self.infoViewOne)
         self.add(childVC: followerItemVC, to: self.infoViewTwo)
@@ -110,7 +107,8 @@ class UserInfoVC: GFDataLoadingVC {
     }
 }
 
-extension UserInfoVC: UserInfoVCDelegate {
+extension UserInfoVC: GFRepoItemVCDelegate {
+    
     func didTapGitHubProfile(for user: User) {
         guard let url = URL(string: user.htmlUrl) else {
             presentGFAlert(title: "Something went wrong.", message: "User's profile missing or check your internet connection.", buttonTitle: "Ok")
@@ -118,6 +116,10 @@ extension UserInfoVC: UserInfoVCDelegate {
         }
         presentSafariVC(with: url)
     }
+    
+}
+
+extension UserInfoVC: GFFollowerItemVCDelegate {
     
     func didTapGetFollowers(for user: User) {
         guard user.followers != 0 else {
@@ -127,6 +129,5 @@ extension UserInfoVC: UserInfoVCDelegate {
         dismissVC()
         delegate.didTapGetFollowers(for: user.login)
     }
-    
-    
+
 }

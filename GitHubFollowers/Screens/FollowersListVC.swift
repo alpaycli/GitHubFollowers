@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol FollowersListVCDelegate: AnyObject {
-    func didTapGetFollowers(for username: String)
-}
-
 class FollowersListVC: GFDataLoadingVC {
     
     enum Section {
@@ -196,7 +192,7 @@ extension FollowersListVC: UISearchResultsUpdating {
 }
 
 // MARK: For reloading, when another action called in other view.
-extension FollowersListVC: FollowersListVCDelegate {
+extension FollowersListVC: UserInfoVCDelegate {
     func didTapGetFollowers(for username: String) {
         self.username = username
         self.page = 1

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C92291D42A8F78D4006B7930 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92291D32A8F78D4006B7930 /* UIView+Ext.swift */; };
 		C96714CA2A7D329A0047A526 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96714C92A7D329A0047A526 /* AppDelegate.swift */; };
 		C96714CC2A7D329A0047A526 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96714CB2A7D329A0047A526 /* SceneDelegate.swift */; };
 		C96714D32A7D329D0047A526 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C96714D22A7D329D0047A526 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C92291D32A8F78D4006B7930 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		C96714C62A7D329A0047A526 /* GitHubFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96714C92A7D329A0047A526 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C96714CB2A7D329A0047A526 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -160,7 +162,7 @@
 				C9C3F2212A878F1800241F16 /* Date+Ext.swift */,
 				C9C3F25A2A8A810200241F16 /* Array+Ext.swift */,
 				C96714F42A7FFAD30047A526 /* UIViewController+Ext.swift */,
-				C9C3F24C2A8A495500241F16 /* GFDataLoadingVC.swift */,
+				C92291D32A8F78D4006B7930 /* UIView+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -230,6 +232,7 @@
 		C9C3F2092A85188700241F16 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C9C3F24C2A8A495500241F16 /* GFDataLoadingVC.swift */,
 				C96714F22A7FF1720047A526 /* CustomAlertVC.swift */,
 				C9C3F2202A86D2CD00241F16 /* HeaderVC */,
 				C9C3F21B2A86D00900241F16 /* IItemInfoVCs */,
@@ -344,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C92291D42A8F78D4006B7930 /* UIView+Ext.swift in Sources */,
 				C96714E62A7E76D80047A526 /* GFTextField.swift in Sources */,
 				C96714E32A7E6CB70047A526 /* FavoritesVC.swift in Sources */,
 				C96714F52A7FFAD40047A526 /* UIViewController+Ext.swift in Sources */,

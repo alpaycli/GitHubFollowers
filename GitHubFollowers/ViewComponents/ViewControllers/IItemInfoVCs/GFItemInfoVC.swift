@@ -15,7 +15,6 @@ class GFItemInfoVC: UIViewController {
     var buttonLabel = GFButton()
     
     var user: User!
-    weak var delegate: UserInfoVCDelegate!
     
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
