@@ -22,22 +22,21 @@ class PersistenceManager {
     func updateWith(_ favoriteItem: Follower, actionType: ActionType, completion: @escaping(APIError?) -> Void ) {
         loadFavorites { result in
             switch result {
-            case .success(let favorites):
-                var retrievedFavorites = favorites
+            case .success(var favorites):
                 
                 switch actionType {
                 case .add:
-                    if retrievedFavorites.contains(favoriteItem) {
+                    if favorites.contains(favoriteItem) {
                         completion(.unknown)
                         return
                     }
                     
-                    retrievedFavorites.append(favoriteItem)
+                    favorites.append(favoriteItem)
                 case .remove:
-                    retrievedFavorites.removeAll(where: { $0.login == favoriteItem.login } )
+                    favorites.removeAll(where: { $0.login == favoriteItem.login } )
                 }
                 
-                completion(self.saveFavorites(followers: retrievedFavorites))
+                completion(self.saveFavorites(followers: favorites))
                 
             case .failure(let error):
                 completion(error)

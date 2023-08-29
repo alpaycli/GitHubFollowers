@@ -61,6 +61,7 @@ class FollowersListVC: GFDataLoadingVC {
                 self.presentGFAlert(title: "Something went wrong", message: "No account found related to that username, try again later", buttonTitle: "Ok")
             case .success(let followers):
                 if followers.count < 100 { self.hasMoreFollowers = false }
+        
                 self.followers.append(contentsOf: followers)
                 
                 if followers.isEmpty {
