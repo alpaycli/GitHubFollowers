@@ -19,7 +19,7 @@ class PersistenceManager {
     private let defaults = UserDefaults.standard
     private let favoritesKey = "favorites"
     
-    func updateWith(_ favoriteItem: Follower, actionType: ActionType, completion: @escaping(APIError?) -> Void ) {
+    func updateWith(_ favoriteItem: Follower, actionType: ActionType, completion: @escaping(GFError?) -> Void ) {
         loadFavorites { result in
             switch result {
             case .success(var favorites):
@@ -27,7 +27,7 @@ class PersistenceManager {
                 switch actionType {
                 case .add:
                     if favorites.contains(favoriteItem) {
-                        completion(.unknown)
+                        completion(.alreadyInFavorite)
                         return
                     }
                     
@@ -45,7 +45,7 @@ class PersistenceManager {
     }
 
     
-    func loadFavorites(completion: @escaping(Result<[Follower], APIError>) -> Void) {
+    func loadFavorites(completion: @escaping(Result<[Follower], GFError>) -> Void) {
         guard let data = defaults.object(forKey: favoritesKey) as? Data else {
             completion(.success([]))
             return
@@ -56,11 +56,11 @@ class PersistenceManager {
             let decodedItems = try decoder.decode([Follower].self, from: data)
             completion(.success(decodedItems))
         } catch {
-            completion(.failure(APIError.parsing(error as? DecodingError)))
+            completion(.failure(.unableToComplete))
         }
     }
     
-    private func saveFavorites(followers: [Follower]) -> APIError? {
+    private func saveFavorites(followers: [Follower]) -> GFError? {
                 
         do {
             let encoder = JSONEncoder()
@@ -68,7 +68,7 @@ class PersistenceManager {
             defaults.set(encodedItems, forKey: favoritesKey)
             return nil
         } catch {
-            return APIError.unknown
+            return .unableToComplete
         }
     }
 }

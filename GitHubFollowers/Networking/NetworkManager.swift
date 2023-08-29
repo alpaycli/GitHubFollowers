@@ -15,28 +15,28 @@ class NetworkManager {
     private init() {}
     
     
-    func getFollowers(for username: String, page: Int, completed: @escaping (Result<[Follower], APIError>) -> Void) {
+    func getFollowers(for username: String, page: Int, completed: @escaping (Result<[Follower], GFError>) -> Void) {
         let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
         
         guard let url = URL(string: endpoint) else {
-            completed(.failure(APIError.badURL))
+            completed(.failure(GFError.invalidUsername))
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             
             if let _ = error {
-                completed(.failure(APIError.badURL))
+                completed(.failure(.unableToComplete))
                 return
             }
             
             if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
-                completed(.failure(APIError.badResponse(statusCode: response.statusCode)))
+                completed(.failure(.invalidResponse))
                 return
             }
             
             guard let data = data else {
-                completed(.failure(APIError.url(error as? URLError)))
+                completed(.failure(.invalidData))
                 return
             }
             
@@ -46,37 +46,37 @@ class NetworkManager {
                 let followers = try decoder.decode([Follower].self, from: data)
                 completed(.success(followers))
             } catch {
-                completed(.failure(APIError.parsing(error as? DecodingError)))
+                completed(.failure(.unableToComplete))
             }
         }
         
         task.resume()
     }
     
-    func getUser(for username: String, completion: @escaping (Result<User, APIError>) -> Void) {
+    func getUser(for username: String, completion: @escaping (Result<User, GFError>) -> Void) {
         let endpoint = baseURL + username
         
         guard let url = URL(string: endpoint) else {
-            completion(.failure(APIError.badURL))
+            completion(.failure(.invalidUsername))
             return
         }
         
-
+        
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             
             if let _ = error {
-                completion(.failure(APIError.badURL))
+                completion(.failure(.unableToComplete))
                 return
             }
             
             if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
-                completion(.failure(APIError.badResponse(statusCode: response.statusCode)))
+                completion(.failure(.invalidResponse))
                 return
             }
             
             guard let data = data else {
-                completion(.failure(APIError.url(error as? URLError)))
+                completion(.failure(.invalidData))
                 return
             }
             
@@ -87,7 +87,7 @@ class NetworkManager {
                 let user = try decoder.decode(User.self, from: data)
                 completion(.success(user))
             } catch {
-                completion(.failure(APIError.parsing(error as? DecodingError)))
+                completion(.failure(.invalidData))
             }
         }
         
@@ -114,7 +114,7 @@ class NetworkManager {
                 completion(nil)
                 return
             }
-
+            
             
             self.cache.setObject(image, forKey: cacheKey)
             
@@ -126,38 +126,11 @@ class NetworkManager {
     }
 }
 
-enum APIError: Error, CustomStringConvertible {
-    case badURL
-    case badResponse(statusCode: Int)
-    case url(URLError?)
-    case parsing(DecodingError?)
-    case unknown
-    
-    var localizedDescription: String {
-        // for user
-        switch self {
-        case .badURL, .parsing, .unknown:
-            return "Something went wrong"
-        case .badResponse(_):
-            return "Sorry, your connection lost with our server"
-        case .url(let error):
-            return error?.localizedDescription ?? "Something went wrong"
-        }
-    }
-    
-    var description: String {
-        // for debugging
-        switch self {
-        case .badURL:
-            return "Invalid URL"
-        case .parsing(let error):
-            return "parsing error: \(error?.localizedDescription ?? "")"
-        case .badResponse(statusCode: let statusCode):
-            return "Bad response with \(statusCode)"
-        case .url(let error):
-            return error?.localizedDescription ?? "url session over"
-        case .unknown:
-            return "Something went wrong"
-        }
-    }
+enum GFError: String, Error {
+    case invalidUsername = "Entered username is not valid. Please try again."
+    case unableToComplete = "Unable to complete your request. Please check your internet connection."
+    case invalidResponse = "Invalid response from the server. Please try again."
+    case invalidData = "Invalid data from the server. Please try again."
+    case unableToFavorite = "Something wrong with favoriting this user. Please try again."
+    case alreadyInFavorite = "You have already favorited this user ❤️"
 }

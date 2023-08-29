@@ -42,19 +42,24 @@ class FavoritesVC: GFDataLoadingVC {
             
             switch result {
             case .success(let favorites):
-                if favorites.isEmpty {
-                    self.showEmptyStateView(with: "You have not favorited any user.", in: self.view)
-                    return
-                }
+                self.updateUI(with: favorites)
                 
-                self.favorites = favorites
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.view.bringSubviewToFront(self.tableView)
-                }
             case .failure(let error):
-                self.presentGFAlert(title: "Something went wrong.", message: error.description, buttonTitle: "Ok")
+                self.presentGFAlert(title: "Something went wrong.", message: error.rawValue, buttonTitle: "Ok")
             }
+        }
+    }
+    
+    private func updateUI(with favorites: [Follower]) {
+        if favorites.isEmpty {
+            self.showEmptyStateView(with: "You have not favorited any user.", in: self.view)
+            return
+        }
+        
+        self.favorites = favorites
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.view.bringSubviewToFront(self.tableView)
         }
     }
     
@@ -80,9 +85,12 @@ extension FavoritesVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let favorite = favorites[indexPath.row]
-        let destVC = FollowersListVC(username: favorite.login)
+        let destVC = UserInfoVC()
+        destVC.username = favorite.login
+        destVC.delegate = self
         
-        navigationController?.pushViewController(destVC, animated: true)
+        let navController = UINavigationController(rootViewController: destVC)
+        present(navController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -97,7 +105,14 @@ extension FavoritesVC: UITableViewDataSource, UITableViewDelegate {
                 return
             }
             
-            self.presentGFAlert(title: "Ops...", message: error.description, buttonTitle: "Ok")
+            self.presentGFAlert(title: "Ops...", message: error.rawValue, buttonTitle: "Ok")
         }
+    }
+}
+
+extension FavoritesVC: UserInfoVCDelegate {
+    func didTapGetFollowers(for username: String) {
+        let destVC = FollowersListVC(username: username)
+        navigationController?.pushViewController(destVC, animated: true)
     }
 }

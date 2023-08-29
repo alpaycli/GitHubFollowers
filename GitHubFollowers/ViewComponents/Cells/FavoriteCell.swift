@@ -24,17 +24,11 @@ class FavoriteCell: UITableViewCell {
     
     func set(favorite: Follower) {
         titleLabel.text = favorite.login
-        NetworkManager.shared.downloadImage(urlString: favorite.avatarUrl) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.avatarImage.image = image
-            }
-        }
+        avatarImage.downloadImage(fromURL: favorite.avatarUrl)
     }
     
     private func configure() {
-        addSubview(avatarImage)
-        addSubview(titleLabel)
+        addSubviews(avatarImage, titleLabel)
         
         let padding: CGFloat = 12
         

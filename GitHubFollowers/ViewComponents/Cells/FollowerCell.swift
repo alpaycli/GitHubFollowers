@@ -10,7 +10,7 @@ import UIKit
 class FollowerCell: UICollectionViewCell {
     
     static let reuseId = "FollowerCell"
-    let imageView = GFAvatarImageView(frame: .zero)
+    let avatarImage = GFAvatarImageView(frame: .zero)
     let titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 16)
     
     override init(frame: CGRect) {
@@ -24,30 +24,24 @@ class FollowerCell: UICollectionViewCell {
     
     func set(follower: Follower) {
         titleLabel.text = follower.login
-        NetworkManager.shared.downloadImage(urlString: follower.avatarUrl) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.imageView.image = image
-            }
-        }
+        avatarImage.downloadImage(fromURL: follower.avatarUrl)
     }
     
     
     private func configureImageAndTitle() {
-        addSubview(imageView)
-        addSubview(titleLabel)
+        addSubviews(avatarImage, titleLabel)
         
         let padding: CGFloat = 8
         
         translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
+            avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            avatarImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            avatarImage.heightAnchor.constraint(equalTo: avatarImage.widthAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 12),
+            titleLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 12),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
             titleLabel.heightAnchor.constraint(equalToConstant: 20)

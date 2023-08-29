@@ -36,23 +36,21 @@ class SearchVC: UIViewController {
     
     @objc func pushFollowersListVC() {
         
-        guard isUsernameEntered else {
+        if let username = textFieldView.text {
+            textFieldView.resignFirstResponder()
+            
+            let followersVC = FollowersListVC(username: username)
+            navigationController?.pushViewController(followersVC, animated: true)
+            
+        } else {
             presentGFAlert(title: "No Username", message: "Please enter a username.", buttonTitle: "Ok")
             return
         }
-        
-        textFieldView.resignFirstResponder()
-        
-        let followersVC = FollowersListVC(username: textFieldView.text!)
-        
-        navigationController?.pushViewController(followersVC, animated: true)
     }
     
     private func configureImage() {
         view.addSubview(logoImageView)
         logoImageView.image = Images.ghLogo
-        
-        
         
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

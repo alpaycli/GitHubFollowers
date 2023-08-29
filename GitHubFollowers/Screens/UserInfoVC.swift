@@ -13,10 +13,10 @@ protocol UserInfoVCDelegate: AnyObject {
 
 class UserInfoVC: GFDataLoadingVC {
     
-    private var headerView = UIView()
-    private var infoViewOne = UIView()
-    private var infoViewTwo = UIView()
-    private var dateLabel = GFBodyLabel(textAlignment: .center)
+    private let headerView = UIView()
+    private let infoViewOne = UIView()
+    private let infoViewTwo = UIView()
+    private let dateLabel = GFBodyLabel(textAlignment: .center)
     
     private var itemViews: [UIView] = []
 
